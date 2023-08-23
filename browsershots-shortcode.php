@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 * Plugin Name: Browsershots Shortcode
 * Plugin URI:
@@ -34,25 +34,25 @@ class CTLT_Browsershot{
 		self::$instance = $this;
 		add_action( 'init', array( $this, 'init' ) );
 	}
-	
+
 	function init(){
-		
+
 		$this->add_shortcode( 'browsershot', 'browsershot' );
 	}
-	
+
 	/**
 	* has_shortcode function.
 	*
 	* @access public
 	* @param mixed $shortcode
-	* @return void
+	* @return bool
 	*/
 	function has_shortcode( $shortcode ) {
 		global $shortcode_tags;
-		
+
 		return ( in_array( $shortcode, array_keys ( $shortcode_tags ) ) ? true : false);
 	}
-	
+
 	/**
 	* add_shortcode function.
 	*
@@ -62,15 +62,15 @@ class CTLT_Browsershot{
 	* @return void
 	*/
 	function add_shortcode( $shortcode, $shortcode_function ) {
-		
+
 		if( !$this->has_shortcode( $shortcode ) )
 		add_shortcode( $shortcode, array( &$this, $shortcode_function ) );
-		
+
 	}
-	
+
 	/**
 	 * browsershot function.
-	 * 
+	 *
 	 * @access public
 	 * @param mixed $attributes
 	 * @param string $content (default: '')
@@ -83,26 +83,26 @@ class CTLT_Browsershot{
 			'url' => '',
 			'width' => 250,
 		), $attributes) );
-	
+
 		$imageUrl = $this->create_url($url, $width);
-	
+
 		if ($imageUrl == '') {
 			return '';
 		} else {
 			$image = '<img src="' . $imageUrl . '" alt="' . $url . '" width="' . $width . '"/>';
 			return '<div class="browsershot mshot"><a href="' . $url . '">' . $image . '</a></div>';
 		}
-	
+
 	}
-	
-	
+
+
 	/**
 	 * create_url function.
-	 * 
+	 *
 	 * @access public
 	 * @param string $url (default: '')
 	 * @param int $width (default: 250)
-	 * @return void
+	 * @return string
 	 */
 	function create_url($url = '', $width = 250) {
 
